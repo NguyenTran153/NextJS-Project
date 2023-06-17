@@ -29,7 +29,7 @@ const Feed = () => {
   const fetchPosts = async () => {
     const response = await fetch("/api/prompt");
     const data = await response.json();
-    console.log(data);
+
     setAllPosts(data);
   };
 
@@ -38,7 +38,8 @@ const Feed = () => {
   }, []);
 
   const filterPrompts = (searchText) => {
-    const regex = new RegExp(searchText, "i"); // 'i' flag for case-insensitive search
+    const escapedText = searchText.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // Escaping special characters
+    const regex = new RegExp(escapedText, "i"); // 'i' flag for case-insensitive search
     return allPosts.filter(
       (item) =>
         regex.test(item.creator.username) ||
@@ -50,20 +51,20 @@ const Feed = () => {
   const handleSearchChange = (e) => {
     clearTimeout(searchTimeout);
     setSearchText(e.target.value);
-
     //debounce method
     setSearchTimeout(
       setTimeout(() => {
-        const searchResults = filterPrompts(e.target.value);
-        setSearchResults(searchResults);
+        const searchResult = filterPrompts(e.target.value);
+        setSearchResults(searchResult);
       }, 500)
     );
   };
 
   const handleTagClick = (tagName) => {
     setSearchText(tagName);
-
+    
     const searchResult = filterPrompts(tagName);
+    console.log(searchResult);
     setSearchResults(searchResult);
   };
 

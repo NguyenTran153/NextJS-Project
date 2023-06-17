@@ -8,7 +8,7 @@ const Home = () => {
         <span className="orange_gradient">AI Prompts </span>
       </h1>
       <p className="desc text-center">
-        Create, find and share prompts AI
+        Create, find and share AI prompts
       </p>
       
       <Feed />

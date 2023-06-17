@@ -16,6 +16,7 @@ export const GET = async (request, { params }) => {
     return new Response("Failed to get prompts", { status: 500 });
   }
 };
+
 // PATCH (update)
 export const PATCH = async (request, { params }) => {
   const { prompt, tag } = await request.json();
@@ -43,8 +44,10 @@ export const DELETE = async (request, { params }) => {
   try {
     await connectToDB();
     await Prompt.findByIdAndRemove(params.id);
+    console.log("Prompt deleted successfully")
     return new Response("Prompt deleted successfully", { status: 200 });
   } catch (error) {
+    console.log("Prompt deleted failed", { status: 500 });
     return new Response("Failed to delete prompt", { status: 500 });
   }
 };
